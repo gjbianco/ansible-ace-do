@@ -1,0 +1,42 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  vars_files:
+    - vault.yml
+  roles:
+    - droplet
+  tasks:
+    - name: refresh DO inventory
+      meta: refresh_inventory
+
+- hosts: ace
+  become: yes
+  gather_facts: no
+  tasks:
+
+    - name: firewalld updated
+      yum:
+        update_cache: yes
+        name: firewalld
+        state: latest
+      register: yum_results
+
+    - name: firewalld restarted
+      when: yum_results.changed
+      service:
+        name: firewalld
+        state: restarted
+
+    # - name: wait until machine ready
+    #   wait_for_connection:
+    #     timeout: 20
+    #     delay: 3
+
+- hosts: ace
+  become: yes
+  gather_facts: no
+  vars_files:
+    - vault.yml
+  roles:
+    - base-setup

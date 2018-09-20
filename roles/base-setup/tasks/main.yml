@@ -1,0 +1,22 @@
+---
+- name: base packages installed
+  yum:
+    name: "{{ base_packages }}"
+    state: latest
+- name: UPG exists
+  group:
+    name: "{{ username }}"
+- name: remote user exists
+  user:
+    name: "{{ username }}"
+    password: "{{ vault_user_pass | password_hash('sha512')}}"
+    append: yes
+    group: "{{ username }}"
+    groups:
+      - wheel
+    home: "/home/{{ username }}"
+    state: present
+- name: key authorized
+  authorized_key:
+    user: "{{ username }}"
+    key: "{{ lookup('file', './id_rsa.pub') }}"

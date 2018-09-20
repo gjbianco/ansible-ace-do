@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - roles/droplet/vars/main.yml
+    - vault.yml
+  tasks:
+
+  - name: droplets destroyed
+    digital_ocean:
+      state: absent
+      command: droplet
+      # size_id: 1gb
+      # region_id: nyc3
+      # image_id: centos-7-x64
+      unique_name: yes
+      # ssh_key_ids: "{{ vault_do_key_ids }}"
+      name: "ace-{{ item }}"
+    with_items: "{{ droplets }}"
+
+  - name: DNS records removed
+    cloudflare_dns: 
+      zone: "{{ vault_cloudflare_zone }}"
+      account_api_token: "{{ vault_cloudflare_token }}"
+      account_email: "{{ vault_cloudflare_email }}"
+      record: "ace-{{ item }}"
+      state: absent
+    with_items: "{{ droplets }}"

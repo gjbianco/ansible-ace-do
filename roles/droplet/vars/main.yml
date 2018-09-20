@@ -1,0 +1,8 @@
+---
+droplet_state: present
+droplets:
+  - bootless
+  - bawdy
+  - craven
+  - droning
+  - lumpish
