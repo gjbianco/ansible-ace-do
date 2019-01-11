@@ -2,4 +2,10 @@
 base_packages:
   - vim
   - screen
+  - git
+  - wget
+  - ansible
+  - zip
+  - unzip
+  - nano
 username: redhat
