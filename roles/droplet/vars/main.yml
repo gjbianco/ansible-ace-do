@@ -1,8 +1,17 @@
 ---
 droplet_state: present
 droplets:
+  - master
   - bootless
   - bawdy
   - craven
   - droning
   - lumpish
+  - tired
+  - blistered
+  - sunburnt
+  - scruffy
+  - crump
+  - tardy
+  - moldy
+  - rudeliest
